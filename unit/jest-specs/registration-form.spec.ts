@@ -8,7 +8,7 @@ import {
     emailRandom,
     childAgeRandom,
     adultAgeRandom,
-    passwordRandomMinError,
+    invalidPasswordRandom,
     nameRandomBasic,
     emailRandomBasic,
     passwordRandomMaxBasic,
@@ -53,7 +53,7 @@ describe("Registration form tests", () => {
     });
 
     test(`Should get text '${Errors.PASSWORD_ERROR}' with password min 7 characters`, () => {
-        expect(() => form.setPassword(passwordRandomMinError)).toThrow(Errors.PASSWORD_ERROR);
+        expect(() => form.setPassword(invalidPasswordRandom)).toThrow(Errors.PASSWORD_ERROR);
     });
 
     test('Should set random adult age', () => {

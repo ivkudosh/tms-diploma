@@ -33,7 +33,7 @@ const passwordRandomMin: string = generator.generate({
     numbers: true
 });
 
-const passwordRandomMinError: string = generator.generate({
+const invalidPasswordRandom: string = generator.generate({
     length: 7,
     numbers: true
 });
@@ -45,7 +45,7 @@ export {
     emailRandom,
     childAgeRandom,
     adultAgeRandom,
-    passwordRandomMinError,
+    invalidPasswordRandom,
     nameRandomBasic,
     emailRandomBasic,
     passwordRandomMaxBasic,
