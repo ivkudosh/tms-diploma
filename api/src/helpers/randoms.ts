@@ -14,13 +14,13 @@ const paramsInvalid = {
     integer: true
 };
 
-const randomInvalidPostId = random(paramsInvalid);
+const randomInvalidId = random(paramsInvalid);
 const randomUserId: number = random(params);
-const randomIdMethodGet: number = random(params);
-const randomIdMethodPost: number = random(params);
-const randomIdMethodPut: number = random(params);
-const randomIdMethodPatch: number = random(params);
-const randomIdMethodDelete: number = random(params);
+const randomIdForMethodGet: number = random(params);
+const randomIdForMethodPost: number = random(params);
+const randomIdForMethodPut: number = random(params);
+const randomIdForMethodPatch: number = random(params);
+const randomIdForMethodDelete: number = random(params);
 
 const randomString: string = generator.generate({
     length: 18,
@@ -28,12 +28,12 @@ const randomString: string = generator.generate({
 });
 
 export {
-    randomIdMethodPost,
-    randomIdMethodGet,
-    randomIdMethodPut,
-    randomIdMethodPatch,
-    randomIdMethodDelete,
+    randomIdForMethodPost,
+    randomIdForMethodGet,
+    randomIdForMethodPut,
+    randomIdForMethodPatch,
+    randomIdForMethodDelete,
     randomUserId,
     randomString,
-    randomInvalidPostId
+    randomInvalidId
 };

@@ -1,27 +1,27 @@
 import { expect } from "@jest/globals";
 import superagent, { Response } from "superagent";
-import { BaseUrl, expectedCreatedPost, expectedUpdatedPost, expectedPatchedPost } from "../src/constants";
+import { BaseUrl, expectedCreatedPost, expectedUpdatedPost, expectedPatchedPost } from "../src/helpers/constants";
 import {
     randomUserId,
-    randomIdMethodGet,
-    randomIdMethodPut,
-    randomIdMethodPatch,
-    randomIdMethodDelete,
+    randomIdForMethodGet,
+    randomIdForMethodPut,
+    randomIdForMethodPatch,
+    randomIdForMethodDelete,
     randomString,
-    randomInvalidPostId
-} from "../src/randoms";
+    randomInvalidId
+} from "../src/helpers/randoms";
 
 let response: Response;
 
 describe("JsonPlaceholder api tests", () => {
     test(`Should getting a post with GET method`, async () => {
         try {
-            response = await superagent.get(`${BaseUrl}posts/${randomIdMethodGet}`);
+            response = await superagent.get(`${BaseUrl}posts/${randomIdForMethodGet}`);
         } catch (error: any) {
             throw new Error(error.message);
         }
         expect(response.status).toBe(200);
-        expect(response.body.id).toBe(randomIdMethodGet);
+        expect(response.body.id).toBe(randomIdForMethodGet);
     });
 
     test(`Should creating a post with POST method`, async () => {
@@ -38,7 +38,7 @@ describe("JsonPlaceholder api tests", () => {
 
     test(`Should updating a post with PUT method`, async () => {
         try {
-            response = await superagent.put(`${BaseUrl}posts/${randomIdMethodPut}`)
+            response = await superagent.put(`${BaseUrl}posts/${randomIdForMethodPut}`)
                 .set('Content-type', 'application/json')
                 .send(expectedUpdatedPost);
         } catch (error: any) {
@@ -50,7 +50,7 @@ describe("JsonPlaceholder api tests", () => {
 
     test(`Should patching a post with PATCH method`, async () => {
         try {
-            response = await superagent.patch(`${BaseUrl}posts/${randomIdMethodPatch}`)
+            response = await superagent.patch(`${BaseUrl}posts/${randomIdForMethodPatch}`)
                 .set('Content-type', 'application/json')
                 .send({ title: expectedPatchedPost.title });
         } catch (error: any) {
@@ -62,7 +62,7 @@ describe("JsonPlaceholder api tests", () => {
 
     test(`Should deleting a post with DELETE method`, async () => {
         try {
-            response = await superagent.delete(`${BaseUrl}posts/${randomIdMethodDelete}`);
+            response = await superagent.delete(`${BaseUrl}posts/${randomIdForMethodDelete}`);
         } catch (error: any) {
             throw new Error(error.message);
         }
@@ -92,7 +92,7 @@ describe("JsonPlaceholder api tests", () => {
 
     test(`Should correctly GET error № 404 if post not found`, async () => {
         try {
-            await superagent.get(`${BaseUrl}posts/${randomInvalidPostId}`);
+            await superagent.get(`${BaseUrl}posts/${randomInvalidId}`);
         } catch (error: any) {
             expect(error.status).toBe(404);
         }
