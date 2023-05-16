@@ -1,20 +1,21 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 const random = require("simple-random-number-generator");
 const generator = require('generate-password');
+import { Params } from "./types";
 
-const params = {
+const params: Params = {
     min: 1,
     max: 100,
     integer: true
 };
 
-const paramsInvalid = {
+const paramsInvalid: Params = {
     min: 1,
     max: 100,
     integer: true
 };
 
-const randomInvalidId = random(paramsInvalid);
+const randomInvalidId: number = random(paramsInvalid);
 const randomUserId: number = random(params);
 const randomIdForMethodGet: number = random(params);
 const randomIdForMethodPost: number = random(params);
