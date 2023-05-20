@@ -1,9 +1,8 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 const random = require('random-name');
-const generator = require('generate-password');
 const emails = require('email-generator');
 const randomAge = require('random-age');
-
+import { generator } from 'ts-password-generator';
 
 const nameRandom: string = random.first();
 const nameRandomBasic: string = random.first();
@@ -16,27 +15,15 @@ const emailRandomBasic: string = emails.generateEmail();
 const childAgeRandom: number = randomAge({ type: 'child' });
 const adultAgeRandom: number = randomAge({ type: 'adult' });
 
-const adultAgeRandomBasic: number = randomAge({ type: 'adult' });
+const seniorAgeRandomBasic: number = randomAge({ type: 'senior' });
 
-const passwordRandomMax: string = generator.generate({
-    length: 18,
-    numbers: true
-});
+const passwordRandomMax: string = generator({ haveNumbers: true, charsQty: 18, isUppercase: true, haveString: true, haveSymbols: true })
 
-const passwordRandomMaxBasic: string = generator.generate({
-    length: 18,
-    numbers: true
-});
+const passwordRandomMaxBasic: string = generator({ haveNumbers: true, charsQty: 16, isUppercase: true, haveString: true, haveSymbols: true })
 
-const passwordRandomMin: string = generator.generate({
-    length: 8,
-    numbers: true
-});
+const passwordRandomMin: string = generator({ haveNumbers: true, charsQty: 8, isUppercase: true, haveString: true, haveSymbols: true })
 
-const invalidPasswordRandom: string = generator.generate({
-    length: 7,
-    numbers: true
-});
+const invalidPasswordRandom: string = generator({ haveNumbers: true, charsQty: 7, isUppercase: true, haveString: true, haveSymbols: true })
 
 export {
     nameRandom,
@@ -49,5 +36,5 @@ export {
     nameRandomBasic,
     emailRandomBasic,
     passwordRandomMaxBasic,
-    adultAgeRandomBasic
+    seniorAgeRandomBasic
 };

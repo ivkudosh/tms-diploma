@@ -1,5 +1,5 @@
 import { expect } from "@jest/globals";
-import { RegistrationForm } from "../src/registration-form";
+import { RegistrationForm } from "../src/registrationForm";
 import { Errors } from "../src/helpers/constants";
 import {
     nameRandom,
@@ -12,14 +12,14 @@ import {
     nameRandomBasic,
     emailRandomBasic,
     passwordRandomMaxBasic,
-    adultAgeRandomBasic
+    seniorAgeRandomBasic
 } from "../src/helpers/randoms";
 
 let form: RegistrationForm;
 
 describe("Registration form tests", () => {
     beforeEach(() => {
-        form = new RegistrationForm(nameRandomBasic, emailRandomBasic, passwordRandomMaxBasic, passwordRandomMaxBasic, adultAgeRandomBasic, true);
+        form = new RegistrationForm(nameRandomBasic, emailRandomBasic, passwordRandomMaxBasic, passwordRandomMaxBasic, seniorAgeRandomBasic, true);
     });
 
     test('Should set name consists of letters', () => {

@@ -67,7 +67,7 @@ export class RegistrationForm {
         return this._agreement;
     }
 
-    public setAgreement(agreement: boolean) {
+    public setAgreement(agreement: boolean): void {
         if (agreement) {
             this._agreement = agreement;
         } else throw new Error(Errors.AGREEMENT_ERROR);
