@@ -10,7 +10,6 @@ import { LoginPage } from "../src/pages/loginPage";
 import { MASTER_PASSWORD, ADMIN_MAIL } from "../src/support/constants";
 import { AdminUsersPage } from "../src/pages/adminUsersPage";
 
-
 dayjs.extend(dayjsRandom);
 const DATE_RANDOM = dayjs.between('01/01/1950', '01/01/2030').format('DD/MM/YYYY');
 
@@ -22,8 +21,7 @@ const SURNAME_RANDOM: string = random.last();
 const EMAIL_RANDOM: string = emails.generateEmail().replace(/"/g, "");
 const EDITED_EMAIL_RANDOM: string = emails.generateEmail().replace(/"/g, "");
 
-
-test.describe('Knomary admin users page', async () => {
+test.describe('Knomary Admin users page', async () => {
     test.beforeEach(async ({ page }) => {
         loginPage = PageFactory.getPage(page, Pages.LOG_IN) as LoginPage;
         adminUsersPage = PageFactory.getPage(page, Pages.ADMIN_USERS) as AdminUsersPage;
@@ -51,25 +49,50 @@ test.describe('Knomary admin users page', async () => {
         await adminUsersPage.clickRandomPasswordButton();
         await adminUsersPage.clickSaveModalWindowButton();
         await adminUsersPage.waitForDisplay(adminUsersPage.addUserModalWindow, "hidden");
-        expect(await adminUsersPage.getFirstUserMailText()).toBe(EMAIL_RANDOM);
+        expect(await adminUsersPage.getFirstUserMailElementText()).toBe(EMAIL_RANDOM);
     });
 
     test('Should update user name by admin', async () => {
         await adminUsersPage.clickFirstCheckboxUserElement();
         await adminUsersPage.clickEditButton();
         await adminUsersPage.waitForDisplay(adminUsersPage.emailEditField, "visible");
-        await adminUsersPage.editEmailInEmailField(EDITED_EMAIL_RANDOM);
+        await adminUsersPage.clearEmailInEmailField();
+        await adminUsersPage.typeNewEmailInEmailField(EDITED_EMAIL_RANDOM);
         await adminUsersPage.clickSaveEditModalWindowButton();
         await adminUsersPage.waitForDisplay(adminUsersPage.editUserButton, "hidden");
-        expect(await adminUsersPage.getFirstUserMailText()).toBe(EDITED_EMAIL_RANDOM);
+        expect(await adminUsersPage.getFirstUserMailElementText()).toBe(EDITED_EMAIL_RANDOM);
     });
 
-    test('Should delete user name by admin', async ({ page }) => {
+    test('Should block user by admin', async () => {
         await adminUsersPage.clickFirstCheckboxUserElement();
+        await adminUsersPage.clickEditButton();
+        await adminUsersPage.waitForDisplay(adminUsersPage.checkActiveSwitcher, "visible");
+        await adminUsersPage.clickCheckActiveSwitcherLabel();
+        await adminUsersPage.clickSaveEditModalWindowButton();
+        await adminUsersPage.waitForDisplay(adminUsersPage.editUserButton, "hidden");
+        await adminUsersPage.clickShowBlockedUserSwitcher();
+        expect(await adminUsersPage.getFirstUserMailElementText()).toBe(EDITED_EMAIL_RANDOM);
+    });
+
+    test('Should unblock user by admin', async () => {
+        await adminUsersPage.waitForDisplay(adminUsersPage.showBlockedUserSwitcher, "visible");
+        await adminUsersPage.clickShowBlockedUserSwitcher();
+        await adminUsersPage.waitForDisplay(adminUsersPage.checkboxUserElement, "visible");
+        await adminUsersPage.clickFirstCheckboxUserElement();
+        await adminUsersPage.clickEditButton();
+        await adminUsersPage.waitForDisplay(adminUsersPage.checkActiveSwitcher, "visible");
+        await adminUsersPage.clickCheckActiveSwitcherLabel();
+        await adminUsersPage.clickSaveEditModalWindowButton();
+        await adminUsersPage.waitForDisplay(adminUsersPage.editUserButton, "hidden");
+        expect(await adminUsersPage.getFirstUserMailElementText()).toBe(EDITED_EMAIL_RANDOM);
+    });
+
+    test('Should delete user by admin', async () => {
+        await adminUsersPage.clickFirstCheckboxUserElement();
+        await adminUsersPage.waitForDisplay(adminUsersPage.deleteUserButton, "visible");
         await adminUsersPage.clickDeleteUserButton();
         await adminUsersPage.clickConfirmDeleteUserButton();
         await adminUsersPage.waitForDisplay(adminUsersPage.deleteUserButton, "hidden");
-        expect(await adminUsersPage.getFirstUserMailText()).not.toBe(EDITED_EMAIL_RANDOM);
-        await page.waitForTimeout(4000)
+        expect(await adminUsersPage.getFirstUserMailElementText()).not.toBe(EDITED_EMAIL_RANDOM);
     });
 });

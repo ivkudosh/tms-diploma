@@ -13,7 +13,7 @@ export class LoginPage extends BasePage {
         this.url = BASE_URL;
         this.emailField = page.locator('#identitys');
         this.passwordField = page.locator('#password');
-        this.signInButton = page.locator('button[type="submit"]', { hasText: "Войти" });
+        this.signInButton = page.locator('//button[@type="submit"]', { hasText: "Войти" });
         this.errorCredentialsElement = page.locator('div[class="fix_send js-fix_send"] > div > p > p');
     }
 
