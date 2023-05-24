@@ -6,7 +6,8 @@
   "scripts": {
     "unit:test": "rm -rf unit/assets && jest --config='./unit/jest.config.js'",
     "api:test": "rm -rf api/assets && jest --config='./api/jest.config.js'",
-    "ui:test": "playwright test --config=./ui/config/playwright.config.ts"
+    "ui:test": "rm -rf ui/assets/allure-results && rm -rf ui/assets/allure-report && playwright test --config=./ui/config/playwright.config.ts",
+    "ui:report": "allure generate ui/assets/allure-results --clean -o ui/assets/allure-report && allure open ui/assets/allure-report"
   },
   "repository": {
     "type": "git",
@@ -20,7 +21,10 @@
   "homepage": "https://github.com/ivkudosh/tms-graduation-project#readme",
   "dependencies": {
     "@types/jest": "^29.5.1",
+    "@types/node": "^20.2.3",
     "@types/superagent": "^4.1.17",
+    "allure-commandline": "^2.22.1",
+    "allure-playwright": "^2.3.0",
     "dayjs": "^1.11.7",
     "dayjs-random": "^1.0.1",
     "email-generator": "^1.0.1",
