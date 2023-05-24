@@ -1,5 +1,5 @@
 {
-  "name": "tms-graduation-project",
+  "name": "tms-diploma",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -11,14 +11,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ivkudosh/tms-graduation-project.git"
+    "url": "git+https://github.com/ivkudosh/tms-diploma.git"
   },
   "author": "Ilya Kudosh",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/ivkudosh/tms-graduation-project/issues"
+    "url": "https://github.com/ivkudosh/tms-diploma/issues"
   },
-  "homepage": "https://github.com/ivkudosh/tms-graduation-project#readme",
+  "homepage": "https://github.com/ivkudosh/tms-diploma#readme",
   "dependencies": {
     "@types/jest": "^29.5.1",
     "@types/node": "^20.2.3",
