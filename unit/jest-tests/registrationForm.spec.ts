@@ -73,4 +73,14 @@ describe("Registration form tests", () => {
     test(`Should get text '${Errors.AGREEMENT_ERROR}' with false agreement`, () => {
         expect(() => form.setAgreement(false)).toThrow(Errors.AGREEMENT_ERROR);
     });
+
+    test(`Should return true if fields are filled'`, () => {
+        form.setName(nameRandom);
+        form.setEmail(emailRandom);
+        form.setPassword(passwordRandomMin);
+        form.setConfirmPassword(passwordRandomMin);
+        form.setAge(adultAgeRandom);
+        form.setAgreement(true);
+        expect(form.checkFieldsFilled()).toBeTruthy();
+    });
 });
