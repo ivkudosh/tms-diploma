@@ -12,6 +12,7 @@ import {
 } from "../src/helpers/randoms";
 
 let response: Response;
+const { title } = expectedPatchedPost;
 
 describe("JsonPlaceholder api tests", () => {
     test(`Should getting a post with GET method`, async () => {
@@ -52,7 +53,7 @@ describe("JsonPlaceholder api tests", () => {
         try {
             response = await superagent.patch(`${BaseUrl}posts/${randomIdForMethodPatch}`)
                 .set('Content-type', 'application/json')
-                .send({ title: expectedPatchedPost.title });
+                .send({ title });
         } catch (error: any) {
             throw new Error(error.message);
         }
