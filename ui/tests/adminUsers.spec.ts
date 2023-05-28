@@ -34,11 +34,11 @@ test.describe('Knomary Admin users page', async () => {
 
     test('Should create user by admin', async () => {
         await adminUsersPage.clickAddStudentButton();
-        await adminUsersPage.waitForDisplay(adminUsersPage.addUserModalWindow, "visible");
+        await expect(adminUsersPage.addUserModalWindow).toBeVisible();
         await adminUsersPage.typeNameInNameField(NAME_RANDOM);
         await adminUsersPage.typeSurnameInSurnameField(SURNAME_RANDOM);
         await adminUsersPage.clickOrgStructureField();
-        await adminUsersPage.waitForDisplay(adminUsersPage.selectElementOrgStructure, "visible");
+        await expect(adminUsersPage.selectElementOrgStructure).toBeVisible();
         await adminUsersPage.clickOrgStructureGroupElement();
         await adminUsersPage.clickSelectButton();
         await adminUsersPage.clickPositionDropdownField();
@@ -48,51 +48,51 @@ test.describe('Knomary Admin users page', async () => {
         await adminUsersPage.typeEmailInEmailField(EMAIL_RANDOM);
         await adminUsersPage.clickRandomPasswordButton();
         await adminUsersPage.clickSaveModalWindowButton();
-        await adminUsersPage.waitForDisplay(adminUsersPage.addUserModalWindow, "hidden");
+        await expect(adminUsersPage.addUserModalWindow).toBeHidden();
         expect(await adminUsersPage.getFirstUserMailElementText()).toBe(EMAIL_RANDOM);
     });
 
     test('Should update user name by admin', async () => {
         await adminUsersPage.clickFirstCheckboxUserElement();
         await adminUsersPage.clickEditButton();
-        await adminUsersPage.waitForDisplay(adminUsersPage.emailEditField, "visible");
+        await expect(adminUsersPage.emailEditField).toBeVisible();
         await adminUsersPage.clearEmailInEmailField();
         await adminUsersPage.typeNewEmailInEmailField(EDITED_EMAIL_RANDOM);
         await adminUsersPage.clickSaveEditModalWindowButton();
-        await adminUsersPage.waitForDisplay(adminUsersPage.editUserButton, "hidden");
+        await expect(adminUsersPage.editUserButton).toBeHidden();
         expect(await adminUsersPage.getFirstUserMailElementText()).toBe(EDITED_EMAIL_RANDOM);
     });
 
     test('Should block user by admin', async () => {
         await adminUsersPage.clickFirstCheckboxUserElement();
         await adminUsersPage.clickEditButton();
-        await adminUsersPage.waitForDisplay(adminUsersPage.checkActiveSwitcher, "visible");
+        await expect(adminUsersPage.checkActiveSwitcher).toBeVisible();
         await adminUsersPage.clickCheckActiveSwitcherLabel();
         await adminUsersPage.clickSaveEditModalWindowButton();
-        await adminUsersPage.waitForDisplay(adminUsersPage.editUserButton, "hidden");
+        await expect(adminUsersPage.editUserButton).toBeHidden();
         await adminUsersPage.clickShowBlockedUserSwitcher();
         expect(await adminUsersPage.getFirstUserMailElementText()).toBe(EDITED_EMAIL_RANDOM);
     });
 
     test('Should unblock user by admin', async () => {
-        await adminUsersPage.waitForDisplay(adminUsersPage.showBlockedUserSwitcher, "visible");
+        await expect(adminUsersPage.showBlockedUserSwitcher).toBeVisible();
         await adminUsersPage.clickShowBlockedUserSwitcher();
-        await adminUsersPage.waitForDisplay(adminUsersPage.checkboxUserElement, "visible");
+        await expect(adminUsersPage.checkboxUserElement).toBeVisible();
         await adminUsersPage.clickFirstCheckboxUserElement();
         await adminUsersPage.clickEditButton();
-        await adminUsersPage.waitForDisplay(adminUsersPage.checkActiveSwitcher, "visible");
+        await expect(adminUsersPage.checkActiveSwitcher).toBeVisible();
         await adminUsersPage.clickCheckActiveSwitcherLabel();
         await adminUsersPage.clickSaveEditModalWindowButton();
-        await adminUsersPage.waitForDisplay(adminUsersPage.editUserButton, "hidden");
+        await expect(adminUsersPage.editUserButton).toBeHidden();
         expect(await adminUsersPage.getFirstUserMailElementText()).toBe(EDITED_EMAIL_RANDOM);
     });
 
     test('Should delete user by admin', async () => {
         await adminUsersPage.clickFirstCheckboxUserElement();
-        await adminUsersPage.waitForDisplay(adminUsersPage.deleteUserButton, "visible");
+        await expect(adminUsersPage.deleteUserButton).toBeVisible();
         await adminUsersPage.clickDeleteUserButton();
         await adminUsersPage.clickConfirmDeleteUserButton();
-        await adminUsersPage.waitForDisplay(adminUsersPage.deleteUserButton, "hidden");
+        await expect(adminUsersPage.deleteUserButton).toBeHidden();
         expect(await adminUsersPage.getFirstUserMailElementText()).not.toBe(EDITED_EMAIL_RANDOM);
     });
 });
