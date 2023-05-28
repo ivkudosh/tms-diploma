@@ -72,4 +72,8 @@ export class RegistrationForm {
             this._agreement = agreement;
         } else throw new Error(Errors.AGREEMENT_ERROR);
     }
+
+    public checkFieldsFilled() {
+        return (this._name && this._email && this._password && this._confirmPassword).length && this._age && this._agreement;
+    }
 }
