@@ -2,7 +2,6 @@ import { Locator, Page } from "@playwright/test";
 
 export class BasePage {
     protected url!: string;
-    protected locator!: Locator;
     protected readonly selectButton: Locator;
 
     constructor(protected readonly page: Page) {
@@ -23,9 +22,5 @@ export class BasePage {
 
     public async clickSelectButton(): Promise<void> {
         await this.selectButton.click();
-    }
-
-    public async waitForDisplay(locator: Locator, statePar: "visible" | "attached" | "detached" | "hidden"): Promise<void> {
-        await locator.waitFor({ state: `${statePar}` });
     }
 }
