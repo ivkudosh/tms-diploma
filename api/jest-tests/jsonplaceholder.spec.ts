@@ -12,6 +12,7 @@ import {
 } from "../src/helpers/randoms";
 
 let response: Response;
+
 const { title } = expectedPatchedPost;
 
 describe("JsonPlaceholder api tests", () => {
@@ -58,7 +59,7 @@ describe("JsonPlaceholder api tests", () => {
             throw new Error(error.message);
         }
         expect(response.status).toBe(200);
-        expect(response.body.title).toBe(expectedPatchedPost.title);
+        expect(response.body.title).toBe(title);
     });
 
     test(`Should deleting a post with DELETE method`, async () => {

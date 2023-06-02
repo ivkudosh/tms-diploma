@@ -1,21 +1,15 @@
-import { Errors } from "./helpers/constants";
+import { Errors, SPECIAL_CHARS_REGEXP } from "./helpers/constants";
 
 export class RegistrationForm {
-    private _name: string;
-    private _email: string;
-    private _password: string;
-    private _confirmPassword: string;
-    private _age: number;
-    private _agreement: boolean;
+    private _name!: string;
+    private _email!: string;
+    private _password!: string;
+    private _confirmPassword!: string;
+    private _age!: number;
+    private _agreement!: boolean;
 
-    constructor(name: string, email: string, password: string, confirmPassword: string, age: number, agreement: boolean) {
-        this._name = name;
-        this._email = email;
-        this._password = password;
-        this._confirmPassword = confirmPassword;
-        this._age = age;
-        this._agreement = agreement;
-    }
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
+    constructor() { }
 
     public get name(): string {
         return this._name;
@@ -38,9 +32,7 @@ export class RegistrationForm {
     }
 
     public setPassword(password: string): void {
-        if (password.length >= 8 && password.length <= 18) {
-            this._password = password;
-        } else throw new Error(Errors.PASSWORD_ERROR);
+        this._password = password;
     }
 
     public get confirmPassword(): string {
@@ -48,9 +40,7 @@ export class RegistrationForm {
     }
 
     public setConfirmPassword(confirmPassword: string): void {
-        if (confirmPassword === this._password) {
-            this._confirmPassword = confirmPassword;
-        } else throw new Error(Errors.PASSWORD_CONFIRMATION_ERROR);
+        this._confirmPassword = confirmPassword;
     }
 
     public get age(): number {
@@ -58,9 +48,7 @@ export class RegistrationForm {
     }
 
     public setAge(age: number): void {
-        if (age >= 18) {
-            this._age = age;
-        } else throw new Error(Errors.AGE_ERROR);
+        this._age = age;
     }
 
     public get agreement(): boolean {
@@ -68,12 +56,49 @@ export class RegistrationForm {
     }
 
     public setAgreement(agreement: boolean): void {
-        if (agreement) {
-            this._agreement = agreement;
-        } else throw new Error(Errors.AGREEMENT_ERROR);
+        this._agreement = agreement;
     }
 
-    public checkFieldsFilled() {
-        return (this._name && this._email && this._password && this._confirmPassword).length && this._age && this._agreement;
+    public validateForm() {
+        if (!SPECIAL_CHARS_REGEXP.test(this.password)) {
+            throw new Error(Errors.PASSWORD_CHARACTER_ERROR_);
+        }
+
+        if (this.password.length < 8 || this.password.length > 18) {
+            throw new Error(Errors.PASSWORD_ERROR);
+        }
+
+        if (this.confirmPassword !== this._password) {
+            throw new Error(Errors.PASSWORD_CONFIRMATION_ERROR);
+        }
+
+        if (this.age < 18) {
+            throw new Error(Errors.AGE_ERROR);
+        }
+
+        if (!this.agreement) {
+            throw new Error(Errors.AGREEMENT_ERROR);
+        }
+    }
+
+    public submitForm() {
+        this.validateForm();
+        return {
+            name: this._name,
+            email: this._email,
+            password: this._password,
+            confirmPassword: this._confirmPassword,
+            age: this._age,
+            agreement: this._agreement
+        };
+    }
+
+    public initializeFields(name: string, email: string, password: string, confirmPassword: string, age: number, agreement: boolean) {
+        this.setName(name);
+        this.setEmail(email);
+        this.setPassword(password);
+        this.setConfirmPassword(confirmPassword);
+        this.setAge(age);
+        this.setAgreement(agreement);
     }
 }

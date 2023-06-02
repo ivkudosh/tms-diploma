@@ -19,7 +19,8 @@ let form: RegistrationForm;
 
 describe("Registration form tests", () => {
     beforeEach(() => {
-        form = new RegistrationForm(nameRandomBasic, emailRandomBasic, passwordRandomMaxBasic, passwordRandomMaxBasic, seniorAgeRandomBasic, true);
+        form = new RegistrationForm();
+        form.initializeFields(nameRandomBasic, emailRandomBasic, passwordRandomMaxBasic, passwordRandomMaxBasic, seniorAgeRandomBasic, true);
     });
 
     test('Should set name consists of letters', () => {
@@ -32,12 +33,12 @@ describe("Registration form tests", () => {
         expect(form.email).toBe(emailRandom);
     });
 
-    test('Should set password max 18 letters', () => {
+    test('Should set password consists of max 18 letters and characters', () => {
         form.setPassword(passwordRandomMax);
         expect(form.password.length).toBe(18);
     });
 
-    test('Should set password min 8 letters', () => {
+    test('Should set password consists of min 8 letters and characters', () => {
         form.setPassword(passwordRandomMin);
         expect(form.password.length).toBe(8);
     });
@@ -49,11 +50,13 @@ describe("Registration form tests", () => {
     });
 
     test(`Should get text '${Errors.PASSWORD_CONFIRMATION_ERROR}' if password and confirmation password don't match`, () => {
-        expect(() => form.setConfirmPassword(passwordRandomMax)).toThrow(Errors.PASSWORD_CONFIRMATION_ERROR);
+        form.setConfirmPassword(passwordRandomMax);
+        expect(() => form.validateForm()).toThrow(Errors.PASSWORD_CONFIRMATION_ERROR);
     });
 
     test(`Should get text '${Errors.PASSWORD_ERROR}' with password min 7 characters`, () => {
-        expect(() => form.setPassword(invalidPasswordRandom)).toThrow(Errors.PASSWORD_ERROR);
+        form.setPassword(invalidPasswordRandom);
+        expect(() => form.validateForm()).toThrow(Errors.PASSWORD_ERROR);
     });
 
     test('Should set random adult age', () => {
@@ -62,7 +65,8 @@ describe("Registration form tests", () => {
     });
 
     test(`Should get text '${Errors.AGE_ERROR}' with child age`, () => {
-        expect(() => form.setAge(childAgeRandom)).toThrow(Errors.AGE_ERROR);
+        form.setAge(childAgeRandom);
+        expect(() => form.validateForm()).toThrow(Errors.AGE_ERROR);
     });
 
     test('Should set true agreement', () => {
@@ -71,16 +75,11 @@ describe("Registration form tests", () => {
     });
 
     test(`Should get text '${Errors.AGREEMENT_ERROR}' with false agreement`, () => {
-        expect(() => form.setAgreement(false)).toThrow(Errors.AGREEMENT_ERROR);
+        form.setAgreement(false);
+        expect(() => form.validateForm()).toThrow(Errors.AGREEMENT_ERROR);
     });
 
-    test(`Should return true if fields are filled'`, () => {
-        form.setName(nameRandom);
-        form.setEmail(emailRandom);
-        form.setPassword(passwordRandomMin);
-        form.setConfirmPassword(passwordRandomMin);
-        form.setAge(adultAgeRandom);
-        form.setAgreement(true);
-        expect(form.checkFieldsFilled()).toBeTruthy();
+    test(`Should submit registration form'`, () => {
+        expect(form.submitForm()).toBeTruthy();
     });
 });

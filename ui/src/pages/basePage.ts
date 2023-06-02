@@ -16,10 +16,6 @@ export class BasePage {
         return this.page.title();
     }
 
-    public getPageUrl(): string {
-        return this.page.url();
-    }
-
     public async clickSelectButton(): Promise<void> {
         await this.selectButton.click();
     }
