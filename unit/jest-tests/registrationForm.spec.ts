@@ -1,6 +1,6 @@
 import { expect } from "@jest/globals";
 import { RegistrationForm } from "../src/registrationForm";
-import { Errors } from "../src/helpers/constants";
+import { Errors, SUCCESS_SUBMIT_FORM } from "../src/helpers/constants";
 import {
     nameRandom,
     passwordRandomMax,
@@ -79,7 +79,16 @@ describe("Registration form tests", () => {
         expect(() => form.validateForm()).toThrow(Errors.AGREEMENT_ERROR);
     });
 
-    test(`Should submit registration form'`, () => {
-        expect(form.submitForm()).toBeTruthy();
+    test(`Should get text '${SUCCESS_SUBMIT_FORM}' if form successfully submitted!`, () => {
+        expect(form.validateForm()).toBe(SUCCESS_SUBMIT_FORM);
+    });
+
+    test(`Should initialize all fields`, () => {
+        expect(form.name).toBe(nameRandomBasic);
+        expect(form.email).toBe(emailRandomBasic);
+        expect(form.password).toBe(passwordRandomMaxBasic);
+        expect(form.confirmPassword).toBe(passwordRandomMaxBasic);
+        expect(form.age).toBe(seniorAgeRandomBasic);
+        expect(form.agreement).toBe(true);
     });
 });

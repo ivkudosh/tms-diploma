@@ -1,4 +1,4 @@
-import { Errors, SPECIAL_CHARS_REGEXP } from "./helpers/constants";
+import { Errors, SPECIAL_CHARS_REGEXP, SUCCESS_SUBMIT_FORM } from "./helpers/constants";
 
 export class RegistrationForm {
     private _name!: string;
@@ -79,18 +79,8 @@ export class RegistrationForm {
         if (!this.agreement) {
             throw new Error(Errors.AGREEMENT_ERROR);
         }
-    }
 
-    public submitForm() {
-        this.validateForm();
-        return {
-            name: this._name,
-            email: this._email,
-            password: this._password,
-            confirmPassword: this._confirmPassword,
-            age: this._age,
-            agreement: this._agreement
-        };
+        return SUCCESS_SUBMIT_FORM;
     }
 
     public initializeFields(name: string, email: string, password: string, confirmPassword: string, age: number, agreement: boolean) {
