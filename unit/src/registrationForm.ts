@@ -61,7 +61,7 @@ export class RegistrationForm {
 
     public validateForm() {
         if (!SPECIAL_CHARS_REGEXP.test(this.password)) {
-            throw new Error(Errors.PASSWORD_CHARACTER_ERROR_);
+            throw new Error(Errors.PASSWORD_CHARACTER_ERROR);
         }
 
         if (this.password.length < 8 || this.password.length > 18) {
