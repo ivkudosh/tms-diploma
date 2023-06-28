@@ -59,7 +59,7 @@ export class RegistrationForm {
         this._agreement = agreement;
     }
 
-    public validateForm() {
+    public validateForm(): string {
         if (!SPECIAL_CHARS_REGEXP.test(this.password)) {
             throw new Error(Errors.PASSWORD_CHARACTER_ERROR);
         }
@@ -83,7 +83,7 @@ export class RegistrationForm {
         return SUCCESS_SUBMIT_FORM;
     }
 
-    public initializeFields(name: string, email: string, password: string, confirmPassword: string, age: number, agreement: boolean) {
+    public initializeFields(name: string, email: string, password: string, confirmPassword: string, age: number, agreement: boolean): void {
         this.setName(name);
         this.setEmail(email);
         this.setPassword(password);
