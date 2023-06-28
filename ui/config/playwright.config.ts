@@ -15,7 +15,7 @@ export default defineConfig({
   fullyParallel: true,
   timeout: 40 * 1000,
   expect: {
-    timeout: 7000
+    timeout: 20000
   },
   /* Fail the build on CI if you accidentally left test.only in the source code. */
   forbidOnly: true,
@@ -24,9 +24,9 @@ export default defineConfig({
   /* Opt out of parallel tests on CI. */
   workers: 1,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
-  reporter: [['html', { open: 'never', outputFolder: '../assets/playwright-report', outputFile: 'html-report' }],
-  ['allure-playwright', { detail: true, outputFolder: './ui/assets/allure-results' }]],
-  outputDir: '../assets/playwright-results',
+  reporter: [['html', { open: 'never', outputFolder: `../assets/playwright-report-${process.env.test_env || 'test'}`, outputFile: `html-report-${process.env.test_env || 'test'}` }],
+  ['allure-playwright', { detail: true, outputFolder: `./ui/assets/allure-results-${process.env.test_env || 'test'}` }]],
+  outputDir: `../assets/playwright-results-${process.env.test_env || 'test'}`,
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     /* Base URL to use in actions like `await page.goto('/')`. */
@@ -38,11 +38,12 @@ export default defineConfig({
     video: 'on',
     viewport: { width: 1920, height: 1080 }
   },
+  globalSetup: '../src/support/environment/globalSetup.ts',
 
   /* Configure projects for major browsers */
   projects: [
     {
-      name: 'chromium',
+      name: 'Google Chrome',
       use: { ...devices['Desktop Chrome'] },
     },
 

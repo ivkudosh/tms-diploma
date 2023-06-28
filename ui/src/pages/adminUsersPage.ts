@@ -1,9 +1,8 @@
 import { BasePage } from "./basePage";
-import { BASE_URL } from "../support/constants";
 import { Locator, Page } from "@playwright/test";
+import ENV from "../support/environment/env";
 
 export class AdminUsersPage extends BasePage {
-    public readonly addUserButton: Locator;
     public readonly addUserModalWindow: Locator;
     public readonly selectElementOrgStructure: Locator;
     private readonly nameField: Locator;
@@ -26,11 +25,16 @@ export class AdminUsersPage extends BasePage {
     private readonly confirmDeleteUserButton: Locator;
     public readonly checkActiveSwitcher: Locator;
     public readonly showBlockedUserSwitcher: Locator;
+    public readonly rewardUserButton: Locator;
+    public readonly rewardDropdownListElement: Locator;
+    private readonly rewardDropdownResultListsElement: Locator;
+    private readonly rewardCommentField: Locator;
+    private readonly rewardSaveButton: Locator;
+    public readonly createdRewardElement: Locator;
 
     constructor(protected readonly page: Page) {
         super(page);
-        this.url = `${BASE_URL}/admin/kpi/structure`;
-        this.addUserButton = page.locator('a[data-target="#add-student"]');
+        this.url = `${ENV.BASE_URL}/admin/kpi/structure`;
         this.addUserModalWindow = page.locator('#add-student .modal-dialog');
         this.nameField = page.locator('.form-group input[name="first_name"]');
         this.surnameField = page.locator('.form-group input[name="second_name"]');
@@ -53,10 +57,12 @@ export class AdminUsersPage extends BasePage {
         this.confirmDeleteUserButton = page.locator('.modal-content .modal-footer #action-delete-student');
         this.checkActiveSwitcher = page.locator('.form-group .check-block .i-switch.m-t-xs.m-r.switch_active_account');
         this.showBlockedUserSwitcher = page.locator('div[class=" mb-sm"] .check-block label.i-switch.m-t-xs.m-r');
-    }
-
-    public async clickAddStudentButton(): Promise<void> {
-        await this.addUserButton.click();
+        this.rewardUserButton = page.locator('#allUsersBody tr:nth-child(1) td:nth-child(2) .settings-user .a-give-reward');
+        this.rewardDropdownListElement = page.locator('.modal-dialog .modal-content .modal-body #give_reward_form .form-group #reward_id_chosen');
+        this.rewardDropdownResultListsElement = page.locator('.modal-dialog .modal-content .modal-body #give_reward_form .form-group #reward_id_chosen .chosen-drop .chosen-results li:nth-child(2)');
+        this.rewardCommentField = page.locator('.modal-dialog .modal-content .modal-body #give_reward_form .form-group #comment_id');
+        this.rewardSaveButton = page.locator('.modal-dialog .modal-content .modal-footer #action-reward-student');
+        this.createdRewardElement = page.locator('#allUsersBody tr:nth-child(1) td:nth-child(8) u a[data-cnt="1"]');
     }
 
     public async typeNameInNameField(name: string): Promise<void> {
@@ -115,7 +121,7 @@ export class AdminUsersPage extends BasePage {
         await this.editUserButton.click();
     }
 
-    public async clearEmailInEmailField(): Promise<void> {
+    public async clearEmailField(): Promise<void> {
         await this.emailEditField.clear();
     }
 
@@ -141,5 +147,25 @@ export class AdminUsersPage extends BasePage {
 
     public async clickShowBlockedUserSwitcher(): Promise<void> {
         await this.showBlockedUserSwitcher.click();
+    }
+
+    public async clickRewardUserButton(): Promise<void> {
+        await this.rewardUserButton.click();
+    }
+
+    public async clickRewardDropdownListElement(): Promise<void> {
+        await this.rewardDropdownListElement.click();
+    }
+
+    public async clickRewardDropdownResultListsElement(): Promise<void> {
+        await this.rewardDropdownResultListsElement.click();
+    }
+
+    public async typeTextRewardCommentField(text: string): Promise<void> {
+        await this.rewardCommentField.type(text);
+    }
+
+    public async clickRewardSaveButton(): Promise<void> {
+        await this.rewardSaveButton.click();
     }
 }

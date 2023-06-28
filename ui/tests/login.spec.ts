@@ -5,7 +5,7 @@ import { PageFactory } from "../src/pages/pageFactory";
 import { Pages } from "../src/support/types";
 import { LoginPage } from "../src/pages/loginPage";
 import { generator } from 'ts-password-generator';
-import { BASE_TITLE, INCORRECT_CREDENTIALS_MESSAGE } from "../src/support/constants";
+import { BASE_MAIN_TEXT, BASE_TITLE, INCORRECT_CREDENTIALS_MESSAGE } from "../src/support/constants";
 
 let loginPage: LoginPage;
 
@@ -19,13 +19,13 @@ test.describe('Knomary Login page', async () => {
         await loginPage.visitPage();
     });
 
-    test('Should have page title message with invalid credentials', async () => {
-        const actualTitle = await loginPage.getPageTitle();
-        expect(actualTitle).toBe(BASE_TITLE);
+    test('Should have page title', async () => {
+        await expect(loginPage.getByText(BASE_MAIN_TEXT)).toBeVisible();
+        expect(await loginPage.getPageTitle()).toBe(BASE_TITLE);
     });
 
     test('Should have error message with invalid credentials', async () => {
-        await loginPage.typeMailInEmailField(EMAIL_RANDOM);
+        await loginPage.typeMailLoginInEmailField(EMAIL_RANDOM);
         await loginPage.typePasswordInPasswordField(PASSWORD_RANDOM);
         await loginPage.clickOnSignInButton();
         expect(await loginPage.getErrorCredentialsMessageText()).toBe(INCORRECT_CREDENTIALS_MESSAGE);

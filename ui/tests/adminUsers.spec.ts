@@ -7,8 +7,8 @@ import { test, expect } from "@playwright/test";
 import { PageFactory } from "../src/pages/pageFactory";
 import { Pages } from "../src/support/types";
 import { LoginPage } from "../src/pages/loginPage";
-import { MASTER_PASSWORD, ADMIN_MAIL } from "../src/support/constants";
 import { AdminUsersPage } from "../src/pages/adminUsersPage";
+import ENV from "../src/support/environment/env";
 
 dayjs.extend(dayjsRandom);
 const DATE_RANDOM = dayjs.between('01/01/1950', '01/01/2030').format('DD/MM/YYYY');
@@ -27,13 +27,13 @@ test.describe('Knomary Admin users page', async () => {
         adminUsersPage = PageFactory.getPage(page, Pages.ADMIN_USERS) as AdminUsersPage;
 
         await loginPage.visitPage();
-        await loginPage.typeMailInEmailField(ADMIN_MAIL);
-        await loginPage.typePasswordInPasswordField(MASTER_PASSWORD);
+        await loginPage.typeMailLoginInEmailField(ENV.ADMIN_MAIL);
+        await loginPage.typePasswordInPasswordField(ENV.MASTER_PASSWORD);
         await loginPage.clickOnSignInButton();
     });
 
     test('Should create user by admin', async () => {
-        await adminUsersPage.clickAddStudentButton();
+        await adminUsersPage.clickAddButton();
         await expect(adminUsersPage.addUserModalWindow).toBeVisible();
         await adminUsersPage.typeNameInNameField(NAME_RANDOM);
         await adminUsersPage.typeSurnameInSurnameField(SURNAME_RANDOM);
@@ -56,11 +56,23 @@ test.describe('Knomary Admin users page', async () => {
         await adminUsersPage.clickFirstCheckboxUserElement();
         await adminUsersPage.clickEditButton();
         await expect(adminUsersPage.emailEditField).toBeVisible();
-        await adminUsersPage.clearEmailInEmailField();
+        await adminUsersPage.clearEmailField();
         await adminUsersPage.typeNewEmailInEmailField(EDITED_EMAIL_RANDOM);
         await adminUsersPage.clickSaveEditModalWindowButton();
         await expect(adminUsersPage.editUserButton).toBeHidden();
         expect(await adminUsersPage.getFirstUserMailElementText()).toBe(EDITED_EMAIL_RANDOM);
+    });
+
+    test('Should give a reward to the user by admin', async () => {
+        await adminUsersPage.clickFirstCheckboxUserElement();
+        await adminUsersPage.clickRewardUserButton();
+        await expect(adminUsersPage.rewardDropdownListElement).toBeVisible();
+        await adminUsersPage.clickRewardDropdownListElement();
+        await adminUsersPage.clickRewardDropdownResultListsElement();
+        await adminUsersPage.typeTextRewardCommentField(NAME_RANDOM);
+        await adminUsersPage.clickRewardSaveButton();
+        await expect(adminUsersPage.rewardUserButton).toBeHidden();
+        await expect(adminUsersPage.createdRewardElement).toBeVisible();
     });
 
     test('Should block user by admin', async () => {
